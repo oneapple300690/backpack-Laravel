@@ -1,0 +1,36 @@
+models:
+  Module:
+    name: string
+    description: text
+    video_link: string nullable
+    softDeletes: true
+    relationships:
+      belongsToMany: SteppingStone, Program
+
+  Program:
+    name: string
+    description: text
+    subscription_price: float
+    oneOff_price: float
+    numOfSubscriber: integer
+    date: date
+    status: enum:including, unpublished, published, draft
+    timestamps: true
+    softDeletes: true
+    relationships:
+      belongsToMany: Module
+
+  SteppingStone:
+    name: string
+    short_description: string default:''
+    description: text
+    video_link: string nullable
+    pdf_file: string nullable
+    audio_file: string nullable
+    main_content: text
+    timestamps: true
+    softDeletes: true
+    relationships:
+      belongsToMany: Module
+
+seeders: Module, Program, SteppingStone

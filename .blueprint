@@ -1,0 +1,20 @@
+created:
+    - database/factories/ModuleFactory.php
+    - database/factories/ProgramFactory.php
+    - database/factories/SteppingStoneFactory.php
+    - database/migrations/2021_09_29_042518_create_modules_table.php
+    - database/migrations/2021_09_29_042519_create_programs_table.php
+    - database/migrations/2021_09_29_042520_create_stepping_stones_table.php
+    - database/migrations/2021_09_29_042521_create_module_stepping_stone_table.php
+    - database/migrations/2021_09_29_042522_create_module_program_table.php
+    - app/Models/Module.php
+    - app/Models/Program.php
+    - app/Models/SteppingStone.php
+    - database/seeders/ModuleSeeder.php
+    - database/seeders/ProgramSeeder.php
+    - database/seeders/SteppingStoneSeeder.php
+models:
+    User: {  }
+    Module: { name: string, description: text, video_link: 'string nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'SteppingStone, Program' } }
+    Program: { name: string, description: text, subscription_price: float, oneOff_price: float, numOfSubscriber: integer, date: date, status: 'enum:including, unpublished, published, draft', timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: Module } }
+    SteppingStone: { name: string, short_description: 'string default:''''', description: text, video_link: 'string nullable', pdf_file: 'string nullable', audio_file: 'string nullable', main_content: text, timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: Module } }
