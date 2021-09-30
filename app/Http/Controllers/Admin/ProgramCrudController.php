@@ -15,9 +15,14 @@ class ProgramCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkCloneOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -39,13 +44,37 @@ class ProgramCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
-        CRUD::column('description');
-        CRUD::column('subscription_price');
-        CRUD::column('oneOff_price');
-        CRUD::column('numOfSubscriber');
-        CRUD::column('date');
-        CRUD::column('status');
+        CRUD::addColumns([
+            [
+                'name' => 'id',
+                'label' => 'ID',
+            ],
+            [
+                'name' => 'name',
+                'label' => 'Program Name',
+            ],
+            [
+                'name' => 'created_at',
+                'label' => 'Date Created',
+            ],
+            [
+                'name' => 'status',
+                'label' => 'Status',
+            ],
+            [
+                'name' => 'subscription_price',
+                'label' => 'Subscription Price',
+            ],
+            [
+                'name' => 'oneOff_price',
+                'label' => 'One off Price',
+            ],
+            [
+                'name' => 'numOfSubscriber',
+                'label' => 'Number of Subscribers/Purchases',
+            ],
+        ]);
+        CRUD::enableExportButtons();
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -64,13 +93,78 @@ class ProgramCrudController extends CrudController
     {
         CRUD::setValidation(ProgramRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('description');
-        CRUD::field('subscription_price');
-        CRUD::field('oneOff_price');
-        CRUD::field('numOfSubscriber');
-        CRUD::field('date');
-        CRUD::field('status');
+        CRUD::addFields([
+            [
+                'name' => 'name',
+                'label' => 'Program Name',
+                'type' => 'text',
+                'tab' => 'Programs Details'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Program description',
+                'type' => 'ckeditor',
+                'tab' => 'Programs Details'
+            ],
+            [
+                'name' => 'subscription_price',
+                'label' => 'Subscriber price',
+                'type' => 'number',
+                'prefix' => '$',
+                'suffix' => '.00',
+                'wrapper' => ['class' => 'form-group col-md-6'],
+                'tab' => 'Programs Details',
+            ],
+            [
+                'name' => 'oneOff_price',
+                'label' => 'One off price',
+                'type' => 'number',
+                'prefix' => '$',
+                'suffix' => '.00',
+                'wrapper' => ['class' => 'form-group col-md-6'],
+                'tab' => 'Programs Details',
+            ],
+            [
+                'name' => 'numOfSubscriber',
+                'label' => 'Number of subscribers',
+                'type' => 'number',
+                'tab' => 'Programs Details'
+            ],
+            [
+                'name' => 'status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => [
+                    'including' => 'Including',
+                    'unpublished' => 'Unpublished',
+                    'published' => 'Published',
+                    'draft' => 'Draft',
+                ],
+                'tab' => 'Programs Details'
+            ],
+            [
+                'name' => 'date',
+                'label' => 'Publish Date',
+                'type' => 'date',
+                'tab' => 'Modules & Stepping Stones'
+            ],
+            [
+                'name'      => 'modules', // the method that defines the relationship in your Model
+                'label'     => 'Module Name',
+                'type'      => 'relationship',
+                'entity'    => 'modules', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Module",
+                'ajax' => true,
+                'inline_create' => [
+                    'entity'      => 'module',
+                    'modal_class' => 'modal-dialog modal-xl',
+                ],
+                'tab' => 'Modules & Stepping Stones',
+            ],
+        ]);
+
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
