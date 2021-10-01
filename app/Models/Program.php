@@ -24,6 +24,7 @@ class Program extends Model
         'numOfSubscriber',
         'date',
         'status',
+        'video_link',
     ];
 
     /**

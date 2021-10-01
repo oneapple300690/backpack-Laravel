@@ -1,7 +1,7 @@
 models:
   Module:
     name: string
-    description: text
+    description: text nullable
     video_link: string nullable
     softDeletes: true
     relationships:
@@ -9,12 +9,13 @@ models:
 
   Program:
     name: string
-    description: text
+    description: text nullable
     subscription_price: float
     oneOff_price: float
     numOfSubscriber: integer
     date: date
-    status: enum:including, unpublished, published, draft
+    status: enum:including,unpublished,published,draft
+    video_link: string nullable
     timestamps: true
     softDeletes: true
     relationships:

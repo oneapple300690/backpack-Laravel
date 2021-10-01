@@ -29,7 +29,8 @@ class ProgramFactory extends Factory
             'oneOff_price' => $this->faker->randomFloat(0, 0, 9999999999.),
             'numOfSubscriber' => $this->faker->numberBetween(-10000, 10000),
             'date' => $this->faker->date(),
-            'status' => $this->faker->randomElement(["including",""]),
+            'status' => $this->faker->randomElement(["including","unpublished","published","draft"]),
+            'video_link' => $this->faker->word,
         ];
     }
 }

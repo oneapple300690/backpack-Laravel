@@ -15,6 +15,7 @@ class SteppingStoneCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
@@ -39,13 +40,28 @@ class SteppingStoneCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
-        CRUD::column('short_description');
-        CRUD::column('description');
-        CRUD::column('video_link');
-        CRUD::column('pdf_file');
-        CRUD::column('audio_file');
-        CRUD::column('main_content');
+        CRUD::addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'name' => 'short_description',
+                'label' => 'Short Description'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Description'
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video Link'
+            ],
+            [
+                'name' => 'main_content',
+                'label' => 'Main Content'
+            ],
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -64,13 +80,43 @@ class SteppingStoneCrudController extends CrudController
     {
         CRUD::setValidation(SteppingStoneRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('short_description');
-        CRUD::field('description');
-        CRUD::field('video_link');
-        CRUD::field('pdf_file');
-        CRUD::field('audio_file');
-        CRUD::field('main_content');
+        CRUD::addFields([
+            [
+                'name' => 'name',
+                'label' => 'Stepping stone name',
+                'type' => 'text'
+            ],
+            [
+                'name' => 'short_description',
+                'label' => 'Stepping stone short description',
+                'type' => 'textarea'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Stepping stone description',
+                'type' => 'ckeditor'
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video Link',
+                'type' => 'text'
+            ],
+            [
+                'name' => 'pdf_file',
+                'label' => 'PDF file upload',
+                'type' => 'upload'
+            ],
+            [
+                'name' => 'audio_file',
+                'label' => 'Audio file upload',
+                'type' => 'upload'
+            ],
+            [
+                'name' => 'main_content',
+                'label' => 'Main Stepping stone content',
+                'type' => 'ckeditor'
+            ],
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

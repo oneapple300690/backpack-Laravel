@@ -15,7 +15,6 @@ class ProgramCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
@@ -23,6 +22,7 @@ class ProgramCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\BulkCloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -34,6 +34,16 @@ class ProgramCrudController extends CrudController
         CRUD::setModel(\App\Models\Program::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/program');
         CRUD::setEntityNameStrings('program', 'programs');
+    }
+
+    public function fetchModule()
+    {
+        return $this->fetch(\App\Models\Module::class);
+    }
+
+    public function fetchModules()
+    {
+        return $this->fetch(\App\Models\Module::class);
     }
 
     /**
@@ -96,7 +106,7 @@ class ProgramCrudController extends CrudController
         CRUD::addFields([
             [
                 'name' => 'name',
-                'label' => 'Program Name',
+                'label' => 'Program name',
                 'type' => 'text',
                 'tab' => 'Programs Details'
             ],
@@ -107,13 +117,10 @@ class ProgramCrudController extends CrudController
                 'tab' => 'Programs Details'
             ],
             [
-                'name' => 'subscription_price',
-                'label' => 'Subscriber price',
-                'type' => 'number',
-                'prefix' => '$',
-                'suffix' => '.00',
-                'wrapper' => ['class' => 'form-group col-md-6'],
-                'tab' => 'Programs Details',
+                'name' => 'video_link',
+                'label' => 'Video link',
+                'type' => 'text',
+                'tab' => 'Programs Details'
             ],
             [
                 'name' => 'oneOff_price',
@@ -125,11 +132,15 @@ class ProgramCrudController extends CrudController
                 'tab' => 'Programs Details',
             ],
             [
-                'name' => 'numOfSubscriber',
-                'label' => 'Number of subscribers',
+                'name' => 'subscription_price',
+                'label' => 'Subscriber price',
                 'type' => 'number',
-                'tab' => 'Programs Details'
+                'prefix' => '$',
+                'suffix' => '.00',
+                'wrapper' => ['class' => 'form-group col-md-6'],
+                'tab' => 'Programs Details',
             ],
+            
             [
                 'name' => 'status',
                 'label' => 'Status',
@@ -144,13 +155,13 @@ class ProgramCrudController extends CrudController
             ],
             [
                 'name' => 'date',
-                'label' => 'Publish Date',
+                'label' => 'Publish date',
                 'type' => 'date',
                 'tab' => 'Modules & Stepping Stones'
             ],
             [
                 'name'      => 'modules', // the method that defines the relationship in your Model
-                'label'     => 'Module Name',
+                'label'     => 'Module name',
                 'type'      => 'relationship',
                 'entity'    => 'modules', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
@@ -160,6 +171,7 @@ class ProgramCrudController extends CrudController
                     'entity'      => 'module',
                     'modal_class' => 'modal-dialog modal-xl',
                 ],
+                'data_source' => backpack_url('program/fetch/module'),
                 'tab' => 'Modules & Stepping Stones',
             ],
         ]);

@@ -16,12 +16,13 @@ class CreateProgramsTable extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->float('subscription_price');
             $table->float('oneOff_price');
             $table->integer('numOfSubscriber');
             $table->date('date');
-            $table->enum('status', ["including",""]);
+            $table->enum('status', ["including","unpublished","published","draft"]);
+            $table->string('video_link')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

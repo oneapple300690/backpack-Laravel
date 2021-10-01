@@ -19,6 +19,7 @@ class ModuleCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -32,6 +33,16 @@ class ModuleCrudController extends CrudController
         CRUD::setEntityNameStrings('module', 'modules');
     }
 
+    public function fetchSteppingStone()
+    {
+        return $this->fetch(\App\Models\SteppingStone::class);
+    }
+
+    public function fetchSteppingStones()
+    {
+        return $this->fetch(\App\Models\SteppingStone::class);
+    }
+
     /**
      * Define what happens when the List operation is loaded.
      * 
@@ -40,9 +51,20 @@ class ModuleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
-        CRUD::column('description');
-        CRUD::column('video_link');
+        CRUD::addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Description'
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video Link'
+            ]
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -61,9 +83,37 @@ class ModuleCrudController extends CrudController
     {
         CRUD::setValidation(ModuleRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('description');
-        CRUD::field('video_link');
+        CRUD::addFields([
+            [
+                'name' => 'name',
+                'label' => 'Module name',
+                'type' => 'text'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Module description',
+                'type' => 'ckeditor'
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video link',
+                'type' => 'text'
+            ],
+            [
+                'name'      => 'steppingStones', // the method that defines the relationship in your Model
+                'label'     => 'Stepping stones',
+                'type'      => 'relationship',
+                'entity'    => 'steppingStones', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\SteppingStone",
+                'ajax' => true,
+                'inline_create' => [
+                    'entity'      => 'stepping-stone',
+                    'modal_class' => 'modal-dialog modal-xl',
+                ],
+                'data_source' => backpack_url('module/fetch/steppingStone'),
+            ],
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

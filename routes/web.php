@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::redirect('/', '/admin');
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 });
