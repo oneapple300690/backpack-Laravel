@@ -38,16 +38,18 @@ class ProgramCrudController extends CrudController
         /**
          * Define allowAccess to particular permissions
          */
-        CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
+        CRUD::denyAccess(['list', 'create', 'delete', 'update', 'clone']); // deny all accesses by default
         if (backpack_user()->can('view program')) {
             CRUD::allowAccess('list');
-            CRUD::button('export')->remove();
         }
         if (backpack_user()->can('update program')) {
             CRUD::allowAccess(['list', 'update']);
         }
         if (backpack_user()->can('create program')) {
-            CRUD::allowAccess(['list', 'create']);
+            CRUD::allowAccess(['list', 'create', 'clone']);
+        }
+        if(backpack_user()->can('export program')){
+            CRUD::enableExportButtons();
         }
     }
 
@@ -99,7 +101,6 @@ class ProgramCrudController extends CrudController
                 'label' => 'Number of Subscribers/Purchases',
             ],
         ]);
-        CRUD::enableExportButtons();
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
