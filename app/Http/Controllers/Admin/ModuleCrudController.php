@@ -81,7 +81,7 @@ class ModuleCrudController extends CrudController
             ]
         ]);
 
-        CRUD::enableExportButtons();
+        // CRUD::enableExportButtons();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -96,22 +96,8 @@ class ModuleCrudController extends CrudController
      */
     protected function setupShowOperation()
     {
-        CRUD::addColumns([
-            [
-                'name' => 'name',
-                'label' => 'Name'
-            ],
-            [
-                'name' => 'description',
-                'label' => 'Description',
-                'type' => 'markdown',
-            ],
-            [
-                'name' => 'video_link',
-                'label' => 'Video Link',
-                'type' => 'video'
-            ]
-        ]);
+        $this->setupListOperation();
+        CRUD::modifyColumn('description', ['type' => 'markdown']);
     }
 
     /**

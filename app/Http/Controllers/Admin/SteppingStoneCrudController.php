@@ -97,41 +97,8 @@ class SteppingStoneCrudController extends CrudController
      */
     protected function setupShowOperation()
     {
-
-        CRUD::addColumns([
-            [
-                'name' => 'name',
-                'label' => 'Name'
-            ],
-            [
-                'name' => 'short_description',
-                'label' => 'Short Description',
-                'type' => 'text'
-            ],
-            [
-                'name' => 'description',
-                'label' => 'Description',
-                'type' => 'markdown'
-            ],
-            [
-                'name' => 'video_link',
-                'label' => 'Video Link',
-                'type' => 'video',
-            ],
-            [
-                'name' => 'main_content',
-                'label' => 'Main Content',
-                'type' => 'markdown'
-            ],
-            [
-                'name' => 'audio_file',
-                'label' => 'Audio',
-            ],
-            [
-                'name' => 'pdf_file',
-                'label' => 'PDF',
-            ],
-        ]);
+        $this->setupListOperation();
+        CRUD::setColumnsDetails(['description','main_content'], ['type' => 'markdown']);
     }
 
     /**
@@ -171,14 +138,12 @@ class SteppingStoneCrudController extends CrudController
                 'label' => 'PDF file upload',
                 'type' => 'upload',
                 'upload' => true,
-                'prefix' => 'pdfFile/'
             ],
             [
                 'name' => 'audio_file',
                 'label' => 'Audio file upload',
                 'type' => 'upload',
                 'upload' => true,
-                'prefix' => 'audioFile/'
             ],
             [
                 'name' => 'main_content',

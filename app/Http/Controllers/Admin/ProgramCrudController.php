@@ -41,6 +41,7 @@ class ProgramCrudController extends CrudController
         CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
         if (backpack_user()->can('view program')) {
             CRUD::allowAccess('list');
+            CRUD::button('export')->remove();
         }
         if (backpack_user()->can('update program')) {
             CRUD::allowAccess(['list', 'update']);
