@@ -34,7 +34,7 @@ class ProgramCrudController extends CrudController
         CRUD::setModel(\App\Models\Program::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/program');
         CRUD::setEntityNameStrings('program', 'programs');
-        
+
         /**
          * Define allowAccess to particular permissions
          */
@@ -48,7 +48,7 @@ class ProgramCrudController extends CrudController
         if (backpack_user()->can('create program')) {
             CRUD::allowAccess(['list', 'create', 'clone']);
         }
-        if(backpack_user()->can('export program')){
+        if (backpack_user()->can('export program')) {
             CRUD::enableExportButtons();
         }
     }
@@ -117,6 +117,8 @@ class ProgramCrudController extends CrudController
     protected function setupShowOperation()
     {
         $this->setupListOperation();
+
+        CRUD::addColumn(['name' => 'video_link', 'label' => 'Video link', 'type' => 'video']);
     }
 
     /**
@@ -145,8 +147,9 @@ class ProgramCrudController extends CrudController
             [
                 'name' => 'video_link',
                 'label' => 'Video link',
-                'type' => 'text',
-                'tab' => 'Programs Details'
+                'type' => 'video',
+                'tab' => 'Programs Details',
+                'youtube_api_key' => env('GOOGLE_API_KEY', '')
             ],
             [
                 'name' => 'oneOff_price',
@@ -199,13 +202,13 @@ class ProgramCrudController extends CrudController
                 'type'      => 'relationship',
                 'entity'    => 'modules', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Module",
-                'ajax' => true,
+                // 'model' => "App\Models\Module",
+                // 'ajax' => true,
                 'inline_create' => [
                     'entity'      => 'module',
                     'modal_class' => 'modal-dialog modal-xl',
                 ],
-                'data_source' => backpack_url('program/fetch/module'),
+                // 'data_source' => backpack_url('program/fetch/module'),
                 'tab' => 'Modules & Stepping Stones',
             ],
         ]);

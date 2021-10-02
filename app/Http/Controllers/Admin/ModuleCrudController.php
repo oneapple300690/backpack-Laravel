@@ -98,6 +98,7 @@ class ModuleCrudController extends CrudController
     {
         $this->setupListOperation();
         CRUD::modifyColumn('description', ['type' => 'markdown']);
+        CRUD::addColumn(['name' => 'steppingStones', 'label' => 'Stepping Stones', 'type' => 'relationship']);
     }
 
     /**
@@ -124,7 +125,8 @@ class ModuleCrudController extends CrudController
             [
                 'name' => 'video_link',
                 'label' => 'Video link',
-                'type' => 'video'
+                'type' => 'video',
+                'youtube_api_key' => env('GOOGLE_API_KEY', '')
             ],
             [
                 'name'      => 'steppingStones', // the method that defines the relationship in your Model
@@ -132,13 +134,13 @@ class ModuleCrudController extends CrudController
                 'type'      => 'relationship',
                 'entity'    => 'steppingStones', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\SteppingStone",
-                'ajax' => true,
+                // 'model' => "App\Models\SteppingStone",
+                // 'ajax' => true,
                 'inline_create' => [
                     'entity'      => 'stepping-stone',
                     'modal_class' => 'modal-dialog modal-xl',
                 ],
-                'data_source' => backpack_url('module/fetch/steppingStone'),
+                // 'data_source' => backpack_url('module/fetch/steppingStone'),
             ],
         ]);
 
