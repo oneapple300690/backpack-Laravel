@@ -34,13 +34,19 @@ class ProgramCrudController extends CrudController
         CRUD::setModel(\App\Models\Program::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/program');
         CRUD::setEntityNameStrings('program', 'programs');
+        
+        /**
+         * Define allowAccess to particular permissions
+         */
         CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
-        //  Based on permission, giving different accesses to users
-        if(backpack_user()->can('view program')){
+        if (backpack_user()->can('view program')) {
             CRUD::allowAccess('list');
         }
-        if(backpack_user()->can('update program')){
-            CRUD::allowAccess(['list','update']);
+        if (backpack_user()->can('update program')) {
+            CRUD::allowAccess(['list', 'update']);
+        }
+        if (backpack_user()->can('create program')) {
+            CRUD::allowAccess(['list', 'create']);
         }
     }
 

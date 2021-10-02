@@ -31,6 +31,20 @@ class SteppingStoneCrudController extends CrudController
         CRUD::setModel(\App\Models\SteppingStone::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/stepping-stone');
         CRUD::setEntityNameStrings('stepping stone', 'stepping stones');
+
+        /**
+         * Define allowAccess to particular permissions
+         */
+        CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
+        if (backpack_user()->can('view program')) {
+            CRUD::allowAccess('list');
+        }
+        if (backpack_user()->can('update program')) {
+            CRUD::allowAccess(['list', 'update']);
+        }
+        if (backpack_user()->can('create program')) {
+            CRUD::allowAccess(['list', 'create']);
+        }
     }
 
     /**
@@ -81,8 +95,9 @@ class SteppingStoneCrudController extends CrudController
      * 
      * @return void
      */
-    protected function setupShowOperation() {
-        
+    protected function setupShowOperation()
+    {
+
         CRUD::addColumns([
             [
                 'name' => 'name',
@@ -149,7 +164,7 @@ class SteppingStoneCrudController extends CrudController
                 'name' => 'video_link',
                 'label' => 'Video Link',
                 'type' => 'video',
-                'youtube_api_key' => 'AIzaSyDUxWWEIycKcclYra8qwEJlwqWHNd9_Jug',
+                'youtube_api_key' => env('GOOGLE_API_KEY', ''),
             ],
             [
                 'name' => 'pdf_file',

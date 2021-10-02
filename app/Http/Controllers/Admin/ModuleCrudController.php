@@ -31,6 +31,20 @@ class ModuleCrudController extends CrudController
         CRUD::setModel(\App\Models\Module::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/module');
         CRUD::setEntityNameStrings('module', 'modules');
+
+        /**
+         * Define allowAccess to particular permissions
+         */
+        CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
+        if (backpack_user()->can('view program')) {
+            CRUD::allowAccess('list');
+        }
+        if (backpack_user()->can('update program')) {
+            CRUD::allowAccess(['list', 'update']);
+        }
+        if (backpack_user()->can('create program')) {
+            CRUD::allowAccess(['list', 'create']);
+        }
     }
 
     public function fetchSteppingStone()
@@ -59,7 +73,6 @@ class ModuleCrudController extends CrudController
             [
                 'name' => 'description',
                 'label' => 'Description',
-                // 'type' => 'textarea'
             ],
             [
                 'name' => 'video_link',
