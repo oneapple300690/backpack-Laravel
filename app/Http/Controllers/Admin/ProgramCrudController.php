@@ -34,6 +34,14 @@ class ProgramCrudController extends CrudController
         CRUD::setModel(\App\Models\Program::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/program');
         CRUD::setEntityNameStrings('program', 'programs');
+        CRUD::denyAccess(['list', 'create', 'delete', 'update']); // deny all accesses by default
+        //  Based on permission, giving different accesses to users
+        if(backpack_user()->can('view program')){
+            CRUD::allowAccess('list');
+        }
+        if(backpack_user()->can('update program')){
+            CRUD::allowAccess(['list','update']);
+        }
     }
 
     public function fetchModule()
@@ -94,6 +102,16 @@ class ProgramCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the Preview operation is loaded.
+     * 
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+    }
+
+    /**
      * Define what happens when the Create operation is loaded.
      * 
      * @see https://backpackforlaravel.com/docs/crud-operation-create
@@ -127,7 +145,11 @@ class ProgramCrudController extends CrudController
                 'label' => 'One off price',
                 'type' => 'number',
                 'prefix' => '$',
-                'suffix' => '.00',
+                'suffix' => ' NZD',
+                'decimals' => 2,
+                'dec_point' => ',',
+                'thousands_sep' => '.',
+                'attributes' => ['step' => 'any'],
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'tab' => 'Programs Details',
             ],
@@ -136,11 +158,15 @@ class ProgramCrudController extends CrudController
                 'label' => 'Subscriber price',
                 'type' => 'number',
                 'prefix' => '$',
-                'suffix' => '.00',
+                'suffix' => ' NZD',
+                'decimals' => 2,
+                'dec_point' => ',',
+                'thousands_sep' => '.',
+                'attributes' => ['step' => 'any'],
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'tab' => 'Programs Details',
             ],
-            
+
             [
                 'name' => 'status',
                 'label' => 'Status',
@@ -175,8 +201,6 @@ class ProgramCrudController extends CrudController
                 'tab' => 'Modules & Stepping Stones',
             ],
         ]);
-
-
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

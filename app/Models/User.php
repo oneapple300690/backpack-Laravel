@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Backpack\PermissionManager\app\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable

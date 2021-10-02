@@ -35,9 +35,26 @@ class SteppingStone extends Model
         'id' => 'integer',
     ];
 
-
     public function modules()
     {
         return $this->belongsToMany(\App\Models\Module::class);
+    }
+
+    public function setPdfFileAttribute($value)
+    {
+        $attribute_name = "pdf_file";
+        $disk = "public";
+        $destination_path = "steppingStone/pdfFile";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+    public function setAudioFileAttribute($value)
+    {
+        $attribute_name = "audio_file";
+        $disk = "public";
+        $destination_path = "steppingStone/audioFile";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\SteppingStoneRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpac\CRUD\app\Models\Traits\HasUploadFields;
 
 /**
  * Class SteppingStoneCrudController
@@ -47,27 +48,75 @@ class SteppingStoneCrudController extends CrudController
             ],
             [
                 'name' => 'short_description',
-                'label' => 'Short Description'
+                'label' => 'Short Description',
+                'type' => 'text'
             ],
             [
                 'name' => 'description',
-                'label' => 'Description'
+                'label' => 'Description',
+                'type' => 'text'
             ],
             [
                 'name' => 'video_link',
-                'label' => 'Video Link'
+                'label' => 'Video Link',
+                'type' => 'video',
             ],
             [
                 'name' => 'main_content',
-                'label' => 'Main Content'
+                'label' => 'Main Content',
+                'type' => 'text'
             ],
         ]);
 
+        // CRUD::enableExportButtons();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+    }
+
+    /**
+     * Define what happens when the Preview operation is loaded.
+     * 
+     * @return void
+     */
+    protected function setupShowOperation() {
+        
+        CRUD::addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'name' => 'short_description',
+                'label' => 'Short Description',
+                'type' => 'text'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Description',
+                'type' => 'markdown'
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video Link',
+                'type' => 'video',
+            ],
+            [
+                'name' => 'main_content',
+                'label' => 'Main Content',
+                'type' => 'markdown'
+            ],
+            [
+                'name' => 'audio_file',
+                'label' => 'Audio',
+            ],
+            [
+                'name' => 'pdf_file',
+                'label' => 'PDF',
+            ],
+        ]);
     }
 
     /**
@@ -99,17 +148,22 @@ class SteppingStoneCrudController extends CrudController
             [
                 'name' => 'video_link',
                 'label' => 'Video Link',
-                'type' => 'text'
+                'type' => 'video',
+                'youtube_api_key' => 'AIzaSyDUxWWEIycKcclYra8qwEJlwqWHNd9_Jug',
             ],
             [
                 'name' => 'pdf_file',
                 'label' => 'PDF file upload',
-                'type' => 'upload'
+                'type' => 'upload',
+                'upload' => true,
+                'prefix' => 'pdfFile/'
             ],
             [
                 'name' => 'audio_file',
                 'label' => 'Audio file upload',
-                'type' => 'upload'
+                'type' => 'upload',
+                'upload' => true,
+                'prefix' => 'audioFile/'
             ],
             [
                 'name' => 'main_content',
@@ -135,4 +189,18 @@ class SteppingStoneCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+
+    // /**
+    //  * Define what happens before/after an item is saved in the Create operation.
+    //  * 
+    //  * @see https://backpackforlaravel.com/docs/4.1/getting-started-crud-operations
+    //  * @return void
+    //  */
+    // public function store()
+    // {
+    //   // do something before validation, before save, before everything
+    //   $response = $this->traitStore();
+    //   // do something after save
+    //   return $response;
+    // }
 }

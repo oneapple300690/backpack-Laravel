@@ -58,19 +58,47 @@ class ModuleCrudController extends CrudController
             ],
             [
                 'name' => 'description',
-                'label' => 'Description'
+                'label' => 'Description',
+                // 'type' => 'textarea'
             ],
             [
                 'name' => 'video_link',
-                'label' => 'Video Link'
+                'label' => 'Video Link',
+                'type' => 'video'
             ]
         ]);
 
+        CRUD::enableExportButtons();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+    }
+
+    /**
+     * Define what happens when the Preview operation is loaded.
+     * 
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Description',
+                'type' => 'markdown',
+            ],
+            [
+                'name' => 'video_link',
+                'label' => 'Video Link',
+                'type' => 'video'
+            ]
+        ]);
     }
 
     /**
@@ -97,7 +125,7 @@ class ModuleCrudController extends CrudController
             [
                 'name' => 'video_link',
                 'label' => 'Video link',
-                'type' => 'text'
+                'type' => 'video'
             ],
             [
                 'name'      => 'steppingStones', // the method that defines the relationship in your Model

@@ -12,7 +12,7 @@ models:
     description: text nullable
     subscription_price: float
     oneOff_price: float
-    numOfSubscriber: integer
+    numOfSubscriber: integer default:0
     date: date
     status: enum:including,unpublished,published,draft
     video_link: string nullable

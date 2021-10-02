@@ -30,7 +30,6 @@ class ProgramRequest extends FormRequest
             'description' => 'required',
             'subscription_price' => 'required',
             'oneOff_price' => 'required',
-            'numOfSubscriber' => 'required',
             'date' => 'required',
             'status' => 'required',
         ];
